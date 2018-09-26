@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
   res.send('<h1>Tes Express & Firebase Cloud Firestore</h1><ul><li><p><b>GET /data</b></p></li><li><p><b>POST /data</b>  => {suhu, lembab, analog}</p></li></ul>')
 })
 
-app.get('/data', (req, res) => {
+app.get('/data/esp8266', (req, res) => {
   const db = fire.firestore();
     db.settings({
       timestampsInSnapshots: true
@@ -35,12 +35,54 @@ app.get('/data', (req, res) => {
   })
 })
 
-app.post('/data', (req, res)=>{
+app.post('/data/esp8266', (req, res)=>{
   const db = fire.firestore();
 	db.settings({
       timestampsInSnapshots: true
     });
     db.collection('lin_esp8266').add({
+      suhu: req.body.suhu,
+      lembab: req.body.lembab,
+      analog: req.body.analog,
+      waktu: new Date()
+    });
+    res.send({
+      suhu: req.body.suhu,
+      lembab: req.body.lembab,
+      analog: req.body.analog,
+      waktu: new Date(),
+      status: 'POST data sukses!'
+  })
+})
+
+app.get('/data/esp32', (req, res) => {
+  const db = fire.firestore();
+    db.settings({
+      timestampsInSnapshots: true
+    });
+    var wholeData = []
+	db.collection('lin_esp32').orderBy('waktu', 'asc').get()
+    .then(snapshot => {
+      snapshot.forEach(doc => {
+        // console.log(doc.id, '=>', doc.data());
+        // console.log(doc.data().name + doc.data().age);
+        // console.log(doc.data());
+        wholeData.push(doc.data())
+      });
+      console.log(wholeData)
+      res.send(wholeData)
+    })
+    .catch(error => {
+      console.log('Error!', error);
+  })
+})
+
+app.post('/data/esp32', (req, res)=>{
+  const db = fire.firestore();
+	db.settings({
+      timestampsInSnapshots: true
+    });
+    db.collection('lin_esp32').add({
       suhu: req.body.suhu,
       lembab: req.body.lembab,
       analog: req.body.analog,
