@@ -52,7 +52,7 @@ app.post('/data/esp8266', (req, res)=>{
       lembab: req.body.lembab,
       analog: req.body.analog,
       waktu: new Date(),
-      status: 'POST data sukses!'
+      status: 'POST data success!'
   })
 })
 
@@ -94,7 +94,7 @@ app.post('/data/esp32', (req, res)=>{
       lembab: req.body.lembab,
       analog: req.body.analog,
       waktu: new Date(),
-      status: 'POST data sukses!'
+      status: 'POST data success!'
   })
 })
 
@@ -136,7 +136,7 @@ app.post('/data/mkr1000', (req, res)=>{
       lembab: req.body.lembab,
       analog: req.body.analog,
       waktu: new Date(),
-      status: 'POST data sukses!'
+      status: 'POST data success!'
   })
 })
 
